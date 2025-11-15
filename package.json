@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng build --base-href /ng-masroufy/ && npx angular-cli-ghpages --dir=dist/ng-masroufy/browser"
+    "deploy": "ng build --base-href / && npx angular-cli-ghpages --dir=dist/ng-masroufy/browser --cname=masroufy.com"
   },
   "prettier": {
     "overrides": [

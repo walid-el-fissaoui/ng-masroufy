@@ -1,6 +1,6 @@
 {
-  "name": "ng-masroufy",
-  "short_name": "ng-masroufy",
+  "name": "masroufy",
+  "short_name": "masroufy",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",

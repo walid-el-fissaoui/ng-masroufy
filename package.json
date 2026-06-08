@@ -1,5 +1,5 @@
 {
-  "name": "ng-masroufy",
+  "name": "masroufy",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng build --base-href / && copy dist\\ng-masroufy\\browser\\index.html dist\\ng-masroufy\\browser\\404.html && npx angular-cli-ghpages --dir=dist/ng-masroufy/browser --cname=masroufy.com"
+    "deploy": "ng build --base-href / && copy dist\\masroufy\\browser\\index.html dist\\masroufy\\browser\\404.html && npx angular-cli-ghpages --dir=dist/masroufy/browser --cname=masroufy.com"
   },
   "prettier": {
     "overrides": [

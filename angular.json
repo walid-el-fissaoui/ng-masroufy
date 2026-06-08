@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ng-masroufy": {
+    "masroufy": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -57,10 +57,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "ng-masroufy:build:production"
+              "buildTarget": "masroufy:build:production"
             },
             "development": {
-              "buildTarget": "ng-masroufy:build:development"
+              "buildTarget": "masroufy:build:development"
             }
           },
           "defaultConfiguration": "development"

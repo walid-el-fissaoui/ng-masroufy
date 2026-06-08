@@ -1,8 +1,178 @@
-<div class="container">
- <div class="row">
-<h1>Masroufy app</h1>
-  <p-datepicker [(ngModel)]="date" />
-  <p-button label="Submit" />
- </div>
+<div class="app-layout">
+  <!-- Desktop Sidebar -->
+  <aside class="app-sidebar" [class.collapsed]="sidebarCollapsed()">
+    <!-- Header with Toggle -->
+    <div class="sidebar-header">
+      <button class="hamburger-btn" (click)="toggleSidebar()" title="Toggle Sidebar">
+        <i class="pi pi-bars"></i>
+      </button>
+      <span class="app-brand" *ngIf="!sidebarCollapsed()">Masroufy</span>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item" title="Dashboard">
+        <i class="pi pi-home"></i>
+        <span class="nav-label" *ngIf="!sidebarCollapsed()">Dashboard</span>
+      </a>
+      <a routerLink="/about" routerLinkActive="active" class="nav-item" title="About">
+        <i class="pi pi-info-circle"></i>
+        <span class="nav-label" *ngIf="!sidebarCollapsed()">About</span>
+      </a>
+    </nav>
+
+    <!-- Budgets Section -->
+    <div class="sidebar-section">
+      <div class="section-header" *ngIf="!sidebarCollapsed()">
+        <span>Budgets</span>
+        <button class="add-budget-btn" (click)="showCreateBudgetDialog()" title="Create New Budget">
+          <i class="pi pi-plus"></i>
+        </button>
+      </div>
+
+      <!-- Collapsed New Budget Action Button -->
+      <button 
+        class="nav-item add-budget-btn-collapsed" 
+        *ngIf="sidebarCollapsed()" 
+        (click)="showCreateBudgetDialog()" 
+        title="Create New Budget"
+      >
+        <i class="pi pi-plus"></i>
+      </button>
+
+      <ul class="budget-list">
+        @for (b of stateService.budgets(); track b.id) {
+          <li 
+            class="budget-item" 
+            [class.active]="stateService.activeBudget()?.id === b.id" 
+            (click)="stateService.selectBudget(b.id)"
+            [title]="b.name"
+          >
+            <i class="pi pi-wallet"></i>
+            <span class="budget-name" *ngIf="!sidebarCollapsed()">{{ b.name }}</span>
+            <button 
+              class="delete-budget-btn" 
+              *ngIf="!sidebarCollapsed()"
+              (click)="confirmDeleteBudget($event, b)" 
+              title="Delete Budget"
+            >
+              <i class="pi pi-trash"></i>
+            </button>
+          </li>
+        }
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Mobile Top Header -->
+  <header class="mobile-header">
+    <button class="hamburger-btn" (click)="mobileDrawerVisible.set(true)" title="Menu">
+      <i class="pi pi-bars"></i>
+    </button>
+    <span class="app-brand">Masroufy</span>
+    <p-button 
+      (onClick)="stateService.toggleDarkMode()" 
+      [icon]="stateService.darkMode() ? 'pi pi-sun' : 'pi pi-moon'" 
+      severity="secondary" 
+      [rounded]="true" 
+      [text]="true" 
+      title="Toggle Dark Mode"
+    />
+  </header>
+
+  <!-- Mobile Navigation Drawer Overlay (p-drawer component) -->
+  <p-drawer [(visible)]="mobileDrawerVisible" header="Masroufy Menu" class="mobile-drawer">
+    <div class="mobile-drawer-content">
+      <nav class="sidebar-nav">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item" (click)="mobileDrawerVisible.set(false)">
+          <i class="pi pi-home"></i>
+          <span class="nav-label">Dashboard</span>
+        </a>
+        <a routerLink="/about" routerLinkActive="active" class="nav-item" (click)="mobileDrawerVisible.set(false)">
+          <i class="pi pi-info-circle"></i>
+          <span class="nav-label">About</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-section">
+        <div class="section-header">
+          <span>Budgets</span>
+          <button class="add-budget-btn" (click)="showCreateBudgetDialog(); mobileDrawerVisible.set(false)" title="Create New Budget">
+            <i class="pi pi-plus"></i>
+          </button>
+        </div>
+
+        <ul class="budget-list">
+          @for (b of stateService.budgets(); track b.id) {
+            <li 
+              class="budget-item" 
+              [class.active]="stateService.activeBudget()?.id === b.id" 
+              (click)="stateService.selectBudget(b.id); mobileDrawerVisible.set(false)"
+            >
+              <i class="pi pi-wallet"></i>
+              <span class="budget-name">{{ b.name }}</span>
+              <button 
+                class="delete-budget-btn" 
+                (click)="confirmDeleteBudget($event, b)" 
+                title="Delete Budget"
+              >
+                <i class="pi pi-trash"></i>
+              </button>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </p-drawer>
+
+  <!-- Main Area -->
+  <main class="app-main">
+    <!-- Desktop Header -->
+    <header class="desktop-header">
+      <div></div>
+      <p-button 
+        (onClick)="stateService.toggleDarkMode()" 
+        [icon]="stateService.darkMode() ? 'pi pi-sun' : 'pi pi-moon'" 
+        severity="secondary" 
+        [rounded]="true" 
+        [text]="true" 
+        title="Toggle Dark Mode"
+      />
+    </header>
+
+    <div class="main-content-container">
+      <router-outlet />
+    </div>
+  </main>
 </div>
-<router-outlet />
+
+<!-- Modal Dialog to Create Budget -->
+<p-dialog 
+  [(visible)]="createBudgetVisible" 
+  header="Create New Budget" 
+  [modal]="true" 
+  [style]="{ width: '360px', 'max-width': '90vw' }"
+>
+  <div class="dialog-form">
+    <div class="flex-column gap-2 mb-4">
+      <label for="budgetName" class="font-semibold text-sm">Budget Name</label>
+      <input 
+        pInputText 
+        id="budgetName" 
+        [(ngModel)]="newBudgetName" 
+        placeholder="e.g. Weekly Allowance, Summer Trip" 
+        class="w-full mt-2" 
+        (keydown.enter)="saveBudget()"
+        #budgetInput
+        autofocus
+      />
+    </div>
+    <div class="flex justify-content-end gap-2">
+      <p-button label="Cancel" severity="secondary" (onClick)="createBudgetVisible = false" />
+      <p-button label="Save" (onClick)="saveBudget()" [disabled]="!newBudgetName.trim()" />
+    </div>
+  </div>
+</p-dialog>
+
+<!-- Global confirmation dialog used by StateService and components -->
+<p-confirmdialog />

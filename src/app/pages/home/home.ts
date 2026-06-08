@@ -273,6 +273,8 @@ interface TagStatBreakdown {
       display: flex;
       align-items: center;
       gap: 0.75rem;
+      min-width: 0;
+      overflow-wrap: anywhere;
     }
     .budget-title i {
       color: var(--primary-color);
@@ -287,6 +289,9 @@ interface TagStatBreakdown {
     .input-group {
       display: flex;
       gap: 0.5rem;
+    }
+    ::ng-deep .input-group .p-button {
+      flex-shrink: 0;
     }
     .tags-list {
       display: flex;
@@ -396,6 +401,7 @@ interface TagStatBreakdown {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 0.75rem;
       margin-bottom: 0.35rem;
     }
     .expense-amount {
@@ -412,6 +418,10 @@ interface TagStatBreakdown {
       color: var(--primary-color);
       padding: 0.2rem 0.5rem;
       border-radius: 6px;
+      max-width: 45%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     html.app-dark .expense-tag-label {
       background-color: rgba(96, 165, 250, 0.15);
@@ -420,15 +430,19 @@ interface TagStatBreakdown {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 0.75rem;
     }
     .expense-desc {
       font-size: 0.95rem;
       color: var(--text-color);
+      min-width: 0;
+      overflow-wrap: anywhere;
     }
     .expense-date {
       display: flex;
       align-items: center;
       gap: 0.25rem;
+      flex-shrink: 0;
     }
     .expense-actions {
       position: absolute;
@@ -444,6 +458,9 @@ interface TagStatBreakdown {
       opacity: 1;
     }
     @media (max-width: 768px) {
+      .budget-title {
+        font-size: 1.6rem;
+      }
       .expense-actions {
         opacity: 1;
         position: static;
@@ -518,13 +535,18 @@ interface TagStatBreakdown {
     .breakdown-details {
       display: flex;
       justify-content: space-between;
+      gap: 0.75rem;
       font-size: 0.9rem;
     }
     .breakdown-tag {
       font-weight: 600;
+      min-width: 0;
+      overflow-wrap: anywhere;
     }
     .breakdown-amt {
       font-weight: 700;
+      flex-shrink: 0;
+      text-align: end;
     }
     .breakdown-pct {
       font-weight: 500;
@@ -539,6 +561,39 @@ interface TagStatBreakdown {
     }
     ::ng-deep .stats-bar .p-progressbar-value {
       background-color: var(--primary-color) !important;
+    }
+    @media (max-width: 576px) {
+      .budget-dashboard-header {
+        margin-bottom: 1rem;
+      }
+      .budget-title {
+        font-size: 1.35rem;
+      }
+      .input-group {
+        flex-direction: column;
+      }
+      ::ng-deep .input-group .p-button {
+        width: 100%;
+      }
+      .flex.justify-end {
+        flex-wrap: wrap;
+      }
+      ::ng-deep .flex.justify-end .p-button {
+        flex: 1 1 auto;
+      }
+      .expense-meta,
+      .expense-details,
+      .breakdown-details {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .expense-tag-label {
+        max-width: 100%;
+      }
+      .expense-date,
+      .breakdown-amt {
+        flex-shrink: 1;
+      }
     }
   `]
 })

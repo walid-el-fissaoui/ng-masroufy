@@ -2,7 +2,8 @@
 .app-layout {
   display: flex;
   min-height: 100vh;
-  width: 100vw;
+  width: 100%;
+  min-width: 0;
 }
 
 /* Sidebar Styles (Collapsible) */
@@ -41,6 +42,7 @@
 
 .app-main {
   flex-grow: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -271,6 +273,7 @@ html.app-dark .add-budget-btn-collapsed {
 .mobile-header {
   display: none;
   height: 56px;
+  width: 100%;
   border-bottom: 1px solid var(--border-color);
   background-color: var(--header-bg);
   backdrop-filter: var(--header-blur);
@@ -280,6 +283,14 @@ html.app-dark .add-budget-btn-collapsed {
   position: sticky;
   top: 0;
   z-index: 9;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.mobile-header .app-brand {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Mobile Drawer styles */
@@ -290,6 +301,10 @@ html.app-dark .add-budget-btn-collapsed {
 }
 
 @media (max-width: 768px) {
+  .app-layout {
+    min-height: 100dvh;
+    flex-direction: column;
+  }
   .app-sidebar {
     display: none;
   }
@@ -300,10 +315,19 @@ html.app-dark .add-budget-btn-collapsed {
     display: flex;
   }
   .app-main {
-    height: calc(100vh - 56px);
+    width: 100%;
+    height: auto;
+    min-height: calc(100dvh - 56px);
+    overflow-y: visible;
   }
 }
 
+.flex {
+  display: flex;
+}
+.gap-2 {
+  gap: 0.5rem;
+}
 .dialog-form {
   padding-top: 0.5rem;
 }

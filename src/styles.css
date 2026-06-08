@@ -82,6 +82,7 @@ body {
   max-width: 620px;
   margin: 0 auto;
   padding: 2rem 1.25rem;
+  width: 100%;
 }
 
 /* Common Classes for Masroufy Components */
@@ -207,4 +208,27 @@ p-dialog .p-dialog-title {
 }
 .p-select-placeholder {
   color: var(--text-muted) !important;
+}
+
+@media (max-width: 576px) {
+  .max-w-620 {
+    padding: 1rem 0.875rem;
+  }
+
+  .card-section {
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-title {
+    align-items: flex-start;
+    font-size: 1.05rem;
+    line-height: 1.3;
+  }
+
+  .empty-state {
+    padding: 2.5rem 1rem;
+    margin-top: 1rem;
+  }
 }

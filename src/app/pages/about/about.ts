@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-about',
@@ -12,17 +13,17 @@ import { RouterLink } from '@angular/router';
         <div class="logo-container">
           <i class="pi pi-wallet logo-icon"></i>
         </div>
-        <h1 class="about-title">About Masroufy</h1>
-        <p class="about-subtitle text-muted">Your ultimate local pocket money companion</p>
+        <h1 class="about-title">{{ t.translate('appName') }}</h1>
+        <p class="about-subtitle text-muted">{{ t.translate('appSubtitle') }}</p>
       </div>
 
       <div class="card-section">
-        <h2 class="card-title"><i class="pi pi-compass"></i> What is Masroufy?</h2>
+        <h2 class="card-title"><i class="pi pi-compass"></i> {{ t.translate('whatIsMasroufyHeader') }}</h2>
         <p class="section-text">
-          <strong>Masroufy</strong> (Arabic for <em>"My Expense"</em> or <em>"My Pocket Money"</em>) is a modern, lightweight pocket money management application. It helps you take control of your daily spending by organizing budgets, setting tags, and tracking expenses over time.
+          {{ t.translate('whatIsMasroufyText1') }}
         </p>
         <p class="section-text">
-          Whether you want to manage weekly allowance, track specific event expenses, or categorize where your pocket money goes, Masroufy provides a fast, modern, and clean dashboard to achieve your goals.
+          {{ t.translate('whatIsMasroufyText2') }}
         </p>
       </div>
 
@@ -30,54 +31,54 @@ import { RouterLink } from '@angular/router';
       <div class="privacy-alert-card">
         <div class="privacy-header">
           <i class="pi pi-lock-open privacy-icon"></i>
-          <h3>100% Local & Private</h3>
+          <h3>{{ t.translate('localPrivateHeader') }}</h3>
         </div>
         <p class="privacy-text">
-          Your data belongs to you. Masroufy operates <strong>entirely inside your browser</strong>. All CRUD operations and storage are handled locally via <strong>IndexedDB</strong>. 
+          {{ t.translate('localPrivateText1') }}
         </p>
         <p class="privacy-text bg-badge">
-          <i class="pi pi-info-circle"></i> Absolutely no data is sent to a server. No trackers, no databases in the cloud, and 100% offline-ready privacy.
+          <i class="pi pi-info-circle"></i> {{ t.translate('localPrivateText2') }}
         </p>
       </div>
 
       <div class="card-section">
-        <h2 class="card-title"><i class="pi pi-star"></i> Core Features</h2>
+        <h2 class="card-title"><i class="pi pi-star"></i> {{ t.translate('coreFeatures') }}</h2>
         <ul class="features-list">
           <li>
             <i class="pi pi-check-circle text-primary"></i>
             <div>
-              <strong>Multi-Budget Support:</strong> Create different budgets for weeks, months, or special events, and switch between them seamlessly.
+              <strong>{{ t.translate('multiBudgetSupport') }}:</strong> {{ t.translate('multiBudgetSupportDesc') }}
             </div>
           </li>
           <li>
             <i class="pi pi-check-circle text-primary"></i>
             <div>
-              <strong>Scoped Tagging:</strong> Category tags are scoped to individual budgets. Keep your "Holiday" tags separate from your "Monthly Allowance" tags.
+              <strong>{{ t.translate('scopedTagging') }}:</strong> {{ t.translate('scopedTaggingDesc') }}
             </div>
           </li>
           <li>
             <i class="pi pi-check-circle text-primary"></i>
             <div>
-              <strong>Detailed Expense Tracking:</strong> Record amounts (with Moroccan Dirham formatting), descriptions, category tags, and calendar dates.
+              <strong>{{ t.translate('detailedTracking') }}:</strong> {{ t.translate('detailedTrackingDesc') }}
             </div>
           </li>
           <li>
             <i class="pi pi-check-circle text-primary"></i>
             <div>
-              <strong>Interactive Statistics:</strong> Generate specific date-range summaries showing total spent, tag totals, and percent breakdowns with progress bars.
+              <strong>{{ t.translate('interactiveStats') }}:</strong> {{ t.translate('interactiveStatsDesc') }}
             </div>
           </li>
           <li>
             <i class="pi pi-check-circle text-primary"></i>
             <div>
-              <strong>Adaptive Dark Mode:</strong> Seamless toggle with customized Material branding, perfect for night tracking.
+              <strong>{{ t.translate('darkMode') }}:</strong> {{ t.translate('darkModeDesc') }}
             </div>
           </li>
         </ul>
       </div>
 
       <div class="flex justify-content-center mt-4 mb-4">
-        <p-button label="Back to Dashboard" icon="pi pi-home" routerLink="/" />
+        <p-button [label]="t.translate('backToDashboard')" icon="pi pi-home" routerLink="/" />
       </div>
     </div>
   `,
@@ -196,4 +197,6 @@ import { RouterLink } from '@angular/router';
     .mb-4 { margin-bottom: 1.5rem; }
   `]
 })
-export class AboutComponent {}
+export class AboutComponent {
+  t = inject(TranslationService);
+}

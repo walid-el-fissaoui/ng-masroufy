@@ -10,6 +10,7 @@ import { ProgressBar } from 'primeng/progressbar';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { StateService } from '../../services/state.service';
+import { TranslationService } from '../../services/translation.service';
 import { Tag, Expense } from '../../models/types';
 
 interface TagStatBreakdown {
@@ -39,8 +40,8 @@ interface TagStatBreakdown {
         <!-- Empty State when no budget is selected -->
         <div class="empty-state animate-fade-in">
           <i class="pi pi-wallet"></i>
-          <h3>No Active Budget</h3>
-          <p>Please select an existing budget from the sidebar or create a new budget to start tracking your pocket money.</p>
+          <h3>{{ t.translate('noActiveBudget') }}</h3>
+          <p>{{ t.translate('noActiveBudgetDesc') }}</p>
         </div>
       } @else {
         <!-- Budget Dashboard Header -->
@@ -48,28 +49,28 @@ interface TagStatBreakdown {
           <h1 class="budget-title">
             <i class="pi pi-wallet"></i> {{ stateService.activeBudget()?.name }}
           </h1>
-          <p class="budget-subtitle text-muted">Manage categories, log expenses, and analyze spending statistics.</p>
+          <p class="budget-subtitle text-muted">{{ t.translate('budgetSubtitle') }}</p>
         </div>
 
-        <!-- Section 1: Tags Management -->
+        <!-- Section 1: Category Tags -->
         <section class="card-section animate-fade-in">
-          <h2 class="card-title"><i class="pi pi-tags"></i> Category Tags</h2>
+          <h2 class="card-title"><i class="pi pi-tags"></i> {{ t.translate('categoryTags') }}</h2>
           <div class="tag-form">
             <div class="input-group">
               <input 
                 pInputText 
                 [(ngModel)]="newTagName" 
-                placeholder="New category (e.g. Food, Transport)" 
+                [placeholder]="t.translate('newCategoryPlaceholder')" 
                 class="w-full flex-1"
                 (keydown.enter)="addTag()"
               />
-              <p-button label="Add Tag" icon="pi pi-plus" [disabled]="!newTagName.trim()" (onClick)="addTag()" />
+              <p-button [label]="t.translate('addTag')" icon="pi pi-plus" [disabled]="!newTagName.trim()" (onClick)="addTag()" />
             </div>
           </div>
 
           <div class="tags-list">
             @if (stateService.activeBudgetTags().length === 0) {
-              <span class="text-muted text-sm">No tags created yet. Add one to categorize expenses!</span>
+              <span class="text-muted text-sm">{{ t.translate('noTagsYet') }}</span>
             } @else {
               @for (tag of stateService.activeBudgetTags(); track tag.id) {
                 <div class="tag-badge" [class.editing]="editingTagId() === tag.id">
@@ -83,10 +84,10 @@ interface TagStatBreakdown {
                       #editInput
                       autofocus
                     />
-                    <button class="tag-action-btn save" (click)="saveTagEdit(tag)" title="Save">
+                    <button class="tag-action-btn save" (click)="saveTagEdit(tag)" [title]="t.translate('save')">
                       <i class="pi pi-check"></i>
                     </button>
-                    <button class="tag-action-btn cancel" (click)="cancelTagEdit()" title="Cancel">
+                    <button class="tag-action-btn cancel" (click)="cancelTagEdit()" [title]="t.translate('cancel')">
                       <i class="pi pi-times"></i>
                     </button>
                   } @else {
@@ -104,17 +105,17 @@ interface TagStatBreakdown {
           </div>
         </section>
 
-        <!-- Section 2: Expenses Management -->
+        <!-- Section 2: Log/Edit Expense -->
         <section class="card-section animate-fade-in">
           <h2 class="card-title">
             <i class="pi pi-calculator"></i> 
-            {{ editingExpenseId() ? 'Edit Expense' : 'Log New Expense' }}
+            {{ editingExpenseId() ? t.translate('editExpense') : t.translate('logNewExpense') }}
           </h2>
           
           <div class="expense-form">
             <div class="grid-form">
               <div class="form-field">
-                <label class="form-label">Amount</label>
+                <label class="form-label">{{ t.translate('amount') }}</label>
                 <p-inputnumber 
                   [(ngModel)]="expenseAmount" 
                   mode="currency" 
@@ -127,28 +128,28 @@ interface TagStatBreakdown {
               </div>
 
               <div class="form-field">
-                <label class="form-label">Description</label>
+                <label class="form-label">{{ t.translate('description') }}</label>
                 <input 
                   pInputText 
                   [(ngModel)]="expenseDescription" 
-                  placeholder="What did you buy?" 
+                  [placeholder]="t.translate('whatDidYouBuy')" 
                   class="w-full"
                 />
               </div>
 
               <div class="form-field">
-                <label class="form-label">Tag Category</label>
+                <label class="form-label">{{ t.translate('tagCategory') }}</label>
                 <p-select 
                   [options]="stateService.activeBudgetTags()" 
                   [(ngModel)]="expenseTag" 
                   optionLabel="name" 
-                  placeholder="Select a category" 
+                  [placeholder]="t.translate('selectCategory')" 
                   styleClass="w-full"
                 />
               </div>
 
               <div class="form-field">
-                <label class="form-label">Date</label>
+                <label class="form-label">{{ t.translate('date') }}</label>
                 <p-datepicker 
                   [(ngModel)]="expenseDate" 
                   [showIcon]="true" 
@@ -160,10 +161,10 @@ interface TagStatBreakdown {
 
             <div class="flex justify-end gap-2 mt-4">
               @if (editingExpenseId()) {
-                <p-button label="Cancel" severity="secondary" icon="pi pi-times" (onClick)="cancelExpenseEdit()" />
-                <p-button label="Update Expense" icon="pi pi-save" [disabled]="!isExpenseFormValid()" (onClick)="saveExpense()" />
+                <p-button [label]="t.translate('cancel')" severity="secondary" icon="pi pi-times" (onClick)="cancelExpenseEdit()" />
+                <p-button [label]="t.translate('updateExpense')" icon="pi pi-save" [disabled]="!isExpenseFormValid()" (onClick)="saveExpense()" />
               } @else {
-                <p-button label="Add Expense" icon="pi pi-check" [disabled]="!isExpenseFormValid()" (onClick)="saveExpense()" />
+                <p-button [label]="t.translate('addExpense')" icon="pi pi-check" [disabled]="!isExpenseFormValid()" (onClick)="saveExpense()" />
               }
             </div>
           </div>
@@ -171,13 +172,13 @@ interface TagStatBreakdown {
 
         <!-- Expenses List View -->
         <section class="card-section animate-fade-in">
-          <h2 class="card-title"><i class="pi pi-list"></i> History</h2>
+          <h2 class="card-title"><i class="pi pi-list"></i> {{ t.translate('history') }}</h2>
           
           <div class="expenses-list">
             @if (stateService.activeBudgetExpenses().length === 0) {
               <div class="empty-list text-center py-4 text-muted">
                 <i class="pi pi-info-circle text-2xl mb-2"></i>
-                <p>No expenses tracked yet. Log one above!</p>
+                <p>{{ t.translate('noExpensesYet') }}</p>
               </div>
             } @else {
               @for (exp of stateService.activeBudgetExpenses(); track exp.id) {
@@ -206,37 +207,37 @@ interface TagStatBreakdown {
           </div>
         </section>
 
-        <!-- Section 3: Statistics Scoped to Budget -->
+        <!-- Statistics Scoped to Budget -->
         <section class="card-section animate-fade-in">
-          <h2 class="card-title"><i class="pi pi-chart-pie"></i> Statistics</h2>
+          <h2 class="card-title"><i class="pi pi-chart-pie"></i> {{ t.translate('statistics') }}</h2>
           
           <div class="stats-filters">
             <div class="grid-form">
               <div class="form-field">
-                <label class="form-label">Start Date</label>
+                <label class="form-label">{{ t.translate('startDate') }}</label>
                 <p-datepicker [(ngModel)]="statsStartDate" [showIcon]="true" styleClass="w-full" dateFormat="yy-mm-dd" />
               </div>
               <div class="form-field">
-                <label class="form-label">End Date</label>
+                <label class="form-label">{{ t.translate('endDate') }}</label>
                 <p-datepicker [(ngModel)]="statsEndDate" [showIcon]="true" styleClass="w-full" dateFormat="yy-mm-dd" />
               </div>
             </div>
             <div class="flex justify-end mt-4">
-              <p-button label="Generate Stats" icon="pi pi-chart-bar" (onClick)="generateStats()" />
+              <p-button [label]="t.translate('generateStats')" icon="pi pi-chart-bar" (onClick)="generateStats()" />
             </div>
           </div>
 
           @if (statsGenerated()) {
             <div class="stats-results animate-fade-in mt-4">
               <div class="stats-summary-box">
-                <span class="stats-summary-label">Total Expenditures</span>
+                <span class="stats-summary-label">{{ t.translate('totalExpenditures') }}</span>
                 <span class="stats-summary-val">{{ statsTotal() | number:'1.2-2' }} MAD</span>
               </div>
 
               <div class="stats-breakdown-section mt-4">
-                <h4 class="breakdown-title">Categorized Breakdown</h4>
+                <h4 class="breakdown-title">{{ t.translate('categorizedBreakdown') }}</h4>
                 @if (statsBreakdown().length === 0) {
-                  <p class="text-muted text-sm text-center py-4">No expenses found within this date range.</p>
+                  <p class="text-muted text-sm text-center py-4">{{ t.translate('noExpensesInPeriod') }}</p>
                 } @else {
                   <div class="breakdown-list">
                     @for (item of statsBreakdown(); track item.tagId) {
@@ -543,6 +544,7 @@ interface TagStatBreakdown {
 })
 export class HomeComponent {
   stateService = inject(StateService);
+  t = inject(TranslationService);
   private confirmationService = inject(ConfirmationService);
 
   // Tag Form Fields
@@ -606,11 +608,11 @@ export class HomeComponent {
 
   confirmDeleteTag(tag: Tag) {
     this.confirmationService.confirm({
-      message: `Are you sure you want to delete the tag "${tag.name}"? WARNING: All associated expenses will also be permanently deleted!`,
-      header: 'Delete Confirmation',
+      message: this.t.translate('deleteTagConfirmText', { name: tag.name }),
+      header: this.t.translate('deleteTagConfirmHeader'),
       icon: 'pi pi-exclamation-triangle',
-      acceptButtonProps: { severity: 'danger', label: 'Delete' },
-      rejectButtonProps: { severity: 'secondary', label: 'Cancel' },
+      acceptButtonProps: { severity: 'danger', label: this.t.translate('delete') },
+      rejectButtonProps: { severity: 'secondary', label: this.t.translate('cancel') },
       accept: async () => {
         await this.stateService.deleteTag(tag.id);
       }
@@ -693,11 +695,11 @@ export class HomeComponent {
 
   confirmDeleteExpense(expense: Expense) {
     this.confirmationService.confirm({
-      message: `Are you sure you want to delete this expense of ${expense.amount.toFixed(2)} MAD for "${expense.description}"?`,
-      header: 'Delete Confirmation',
+      message: this.t.translate('deleteExpenseConfirmText', { amount: expense.amount.toFixed(2), desc: expense.description }),
+      header: this.t.translate('deleteExpenseConfirmHeader'),
       icon: 'pi pi-exclamation-triangle',
-      acceptButtonProps: { severity: 'danger', label: 'Delete' },
-      rejectButtonProps: { severity: 'secondary', label: 'Cancel' },
+      acceptButtonProps: { severity: 'danger', label: this.t.translate('delete') },
+      rejectButtonProps: { severity: 'secondary', label: this.t.translate('cancel') },
       accept: async () => {
         await this.stateService.deleteExpense(expense.id);
       }

@@ -9,6 +9,7 @@ import { Drawer } from 'primeng/drawer';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { StateService } from './services/state.service';
+import { TranslationService } from './services/translation.service';
 import { Budget } from './models/types';
 
 @Component({
@@ -32,6 +33,7 @@ import { Budget } from './models/types';
 })
 export class App {
   stateService = inject(StateService);
+  translationService = inject(TranslationService);
   private confirmationService = inject(ConfirmationService);
 
   // Sidebar controls
@@ -63,11 +65,11 @@ export class App {
     event.stopPropagation();
 
     this.confirmationService.confirm({
-      message: `Are you sure you want to delete the budget "${budget.name}"? This will permanently delete the budget, all its categories (tags), and all logged expenses!`,
-      header: 'Delete Budget Confirmation',
+      message: this.translationService.translate('deleteBudgetConfirmText', { name: budget.name }),
+      header: this.translationService.translate('deleteBudgetConfirmHeader'),
       icon: 'pi pi-exclamation-triangle',
-      acceptButtonProps: { severity: 'danger', label: 'Delete' },
-      rejectButtonProps: { severity: 'secondary', label: 'Cancel' },
+      acceptButtonProps: { severity: 'danger', label: this.translationService.translate('delete') },
+      rejectButtonProps: { severity: 'secondary', label: this.translationService.translate('cancel') },
       accept: async () => {
         await this.stateService.deleteBudget(budget.id);
       },

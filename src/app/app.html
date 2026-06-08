@@ -3,29 +3,29 @@
   <aside class="app-sidebar" [class.collapsed]="sidebarCollapsed()">
     <!-- Header with Toggle -->
     <div class="sidebar-header">
-      <button class="hamburger-btn" (click)="toggleSidebar()" title="Toggle Sidebar">
+      <button class="hamburger-btn" (click)="toggleSidebar()" [title]="translationService.translate('sidebarCollapsed() ? \'Expand\' : \'Collapse\'')">
         <i class="pi pi-bars"></i>
       </button>
-      <span class="app-brand" *ngIf="!sidebarCollapsed()">Masroufy</span>
+      <span class="app-brand" *ngIf="!sidebarCollapsed()">{{ translationService.translate('appName') }}</span>
     </div>
 
     <!-- Navigation -->
     <nav class="sidebar-nav">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item" title="Dashboard">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item" [title]="translationService.translate('dashboard')">
         <i class="pi pi-home"></i>
-        <span class="nav-label" *ngIf="!sidebarCollapsed()">Dashboard</span>
+        <span class="nav-label" *ngIf="!sidebarCollapsed()">{{ translationService.translate('dashboard') }}</span>
       </a>
-      <a routerLink="/about" routerLinkActive="active" class="nav-item" title="About">
+      <a routerLink="/about" routerLinkActive="active" class="nav-item" [title]="translationService.translate('about')">
         <i class="pi pi-info-circle"></i>
-        <span class="nav-label" *ngIf="!sidebarCollapsed()">About</span>
+        <span class="nav-label" *ngIf="!sidebarCollapsed()">{{ translationService.translate('about') }}</span>
       </a>
     </nav>
 
     <!-- Budgets Section -->
     <div class="sidebar-section">
       <div class="section-header" *ngIf="!sidebarCollapsed()">
-        <span>Budgets</span>
-        <button class="add-budget-btn" (click)="showCreateBudgetDialog()" title="Create New Budget">
+        <span>{{ translationService.translate('budgets') }}</span>
+        <button class="add-budget-btn" (click)="showCreateBudgetDialog()" [title]="translationService.translate('createBudget')">
           <i class="pi pi-plus"></i>
         </button>
       </div>
@@ -35,7 +35,7 @@
         class="nav-item add-budget-btn-collapsed" 
         *ngIf="sidebarCollapsed()" 
         (click)="showCreateBudgetDialog()" 
-        title="Create New Budget"
+        [title]="translationService.translate('createBudget')"
       >
         <i class="pi pi-plus"></i>
       </button>
@@ -54,7 +54,7 @@
               class="delete-budget-btn" 
               *ngIf="!sidebarCollapsed()"
               (click)="confirmDeleteBudget($event, b)" 
-              title="Delete Budget"
+              [title]="translationService.translate('delete')"
             >
               <i class="pi pi-trash"></i>
             </button>
@@ -69,35 +69,48 @@
     <button class="hamburger-btn" (click)="mobileDrawerVisible.set(true)" title="Menu">
       <i class="pi pi-bars"></i>
     </button>
-    <span class="app-brand">Masroufy</span>
-    <p-button 
-      (onClick)="stateService.toggleDarkMode()" 
-      [icon]="stateService.darkMode() ? 'pi pi-sun' : 'pi pi-moon'" 
-      severity="secondary" 
-      [rounded]="true" 
-      [text]="true" 
-      title="Toggle Dark Mode"
-    />
+    <span class="app-brand">{{ translationService.translate('appName') }}</span>
+    
+    <div class="flex gap-2">
+      <!-- Language Toggle -->
+      <p-button 
+        (onClick)="translationService.toggleLanguage()" 
+        [label]="translationService.currentLang() === 'en' ? 'العربية' : 'English'" 
+        severity="secondary" 
+        [rounded]="true" 
+        [text]="true" 
+        title="Toggle Language"
+      />
+      <!-- Dark Mode Toggle -->
+      <p-button 
+        (onClick)="stateService.toggleDarkMode()" 
+        [icon]="stateService.darkMode() ? 'pi pi-sun' : 'pi pi-moon'" 
+        severity="secondary" 
+        [rounded]="true" 
+        [text]="true" 
+        title="Toggle Dark Mode"
+      />
+    </div>
   </header>
 
   <!-- Mobile Navigation Drawer Overlay (p-drawer component) -->
-  <p-drawer [(visible)]="mobileDrawerVisible" header="Masroufy Menu" class="mobile-drawer">
+  <p-drawer [(visible)]="mobileDrawerVisible" [header]="translationService.translate('appName')" class="mobile-drawer">
     <div class="mobile-drawer-content">
       <nav class="sidebar-nav">
         <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item" (click)="mobileDrawerVisible.set(false)">
           <i class="pi pi-home"></i>
-          <span class="nav-label">Dashboard</span>
+          <span class="nav-label">{{ translationService.translate('dashboard') }}</span>
         </a>
         <a routerLink="/about" routerLinkActive="active" class="nav-item" (click)="mobileDrawerVisible.set(false)">
           <i class="pi pi-info-circle"></i>
-          <span class="nav-label">About</span>
+          <span class="nav-label">{{ translationService.translate('about') }}</span>
         </a>
       </nav>
 
       <div class="sidebar-section">
         <div class="section-header">
-          <span>Budgets</span>
-          <button class="add-budget-btn" (click)="showCreateBudgetDialog(); mobileDrawerVisible.set(false)" title="Create New Budget">
+          <span>{{ translationService.translate('budgets') }}</span>
+          <button class="add-budget-btn" (click)="showCreateBudgetDialog(); mobileDrawerVisible.set(false)" [title]="translationService.translate('createBudget')">
             <i class="pi pi-plus"></i>
           </button>
         </div>
@@ -114,7 +127,7 @@
               <button 
                 class="delete-budget-btn" 
                 (click)="confirmDeleteBudget($event, b)" 
-                title="Delete Budget"
+                [title]="translationService.translate('delete')"
               >
                 <i class="pi pi-trash"></i>
               </button>
@@ -130,14 +143,26 @@
     <!-- Desktop Header -->
     <header class="desktop-header">
       <div></div>
-      <p-button 
-        (onClick)="stateService.toggleDarkMode()" 
-        [icon]="stateService.darkMode() ? 'pi pi-sun' : 'pi pi-moon'" 
-        severity="secondary" 
-        [rounded]="true" 
-        [text]="true" 
-        title="Toggle Dark Mode"
-      />
+      <div class="flex gap-2">
+        <!-- Language Toggle -->
+        <p-button 
+          (onClick)="translationService.toggleLanguage()" 
+          [label]="translationService.currentLang() === 'en' ? 'العربية' : 'English'" 
+          severity="secondary" 
+          [rounded]="true" 
+          [text]="true" 
+          title="Toggle Language"
+        />
+        <!-- Dark Mode Toggle -->
+        <p-button 
+          (onClick)="stateService.toggleDarkMode()" 
+          [icon]="stateService.darkMode() ? 'pi pi-sun' : 'pi pi-moon'" 
+          severity="secondary" 
+          [rounded]="true" 
+          [text]="true" 
+          title="Toggle Dark Mode"
+        />
+      </div>
     </header>
 
     <div class="main-content-container">
@@ -149,18 +174,18 @@
 <!-- Modal Dialog to Create Budget -->
 <p-dialog 
   [(visible)]="createBudgetVisible" 
-  header="Create New Budget" 
+  [header]="translationService.translate('createBudget')" 
   [modal]="true" 
   [style]="{ width: '360px', 'max-width': '90vw' }"
 >
   <div class="dialog-form">
     <div class="flex-column gap-2 mb-4">
-      <label for="budgetName" class="font-semibold text-sm">Budget Name</label>
+      <label for="budgetName" class="font-semibold text-sm">{{ translationService.translate('budgetNameLabel') }}</label>
       <input 
         pInputText 
         id="budgetName" 
         [(ngModel)]="newBudgetName" 
-        placeholder="e.g. Weekly Allowance, Summer Trip" 
+        [placeholder]="translationService.translate('newCategoryPlaceholder')" 
         class="w-full mt-2" 
         (keydown.enter)="saveBudget()"
         #budgetInput
@@ -168,8 +193,8 @@
       />
     </div>
     <div class="flex justify-content-end gap-2">
-      <p-button label="Cancel" severity="secondary" (onClick)="createBudgetVisible = false" />
-      <p-button label="Save" (onClick)="saveBudget()" [disabled]="!newBudgetName.trim()" />
+      <p-button [label]="translationService.translate('cancel')" severity="secondary" (onClick)="createBudgetVisible = false" />
+      <p-button [label]="translationService.translate('save')" (onClick)="saveBudget()" [disabled]="!newBudgetName.trim()" />
     </div>
   </div>
 </p-dialog>

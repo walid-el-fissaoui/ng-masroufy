@@ -60,6 +60,21 @@ export class App {
     this.newBudgetName = '';
   }
 
+  async exportData() {
+    const data = await this.stateService.exportData();
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const filename = `${this.translationService.translate('exportDataFilePrefix')}-${timestamp}.json`;
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
   confirmDeleteBudget(event: Event, budget: Budget) {
     // Stop event propagation so clicking delete doesn't select the budget
     event.stopPropagation();

@@ -198,4 +198,8 @@ export class StateService {
     await this.dbService.deleteExpense(id);
     this.expensesList.update((list) => list.filter((e) => e.id !== id));
   }
+
+  exportData() {
+    return this.dbService.exportData();
+  }
 }

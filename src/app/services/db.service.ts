@@ -1,6 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Budget, Tag, Expense } from '../models/types';
 
+export interface MasroufyExportData {
+  exportedAt: string;
+  dbName: string;
+  dbVersion: number;
+  budgets: Budget[];
+  tags: Tag[];
+  expenses: Expense[];
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -133,6 +142,24 @@ export class DbService {
   async deleteExpense(id: string): Promise<void> {
     const db = await this.dbPromise;
     await this.delete(db, 'expenses', id);
+  }
+
+  async exportData(): Promise<MasroufyExportData> {
+    const db = await this.dbPromise;
+    const [budgets, tags, expenses] = await Promise.all([
+      this.getAll<Budget>(db, 'budgets'),
+      this.getAll<Tag>(db, 'tags'),
+      this.getAll<Expense>(db, 'expenses'),
+    ]);
+
+    return {
+      exportedAt: new Date().toISOString(),
+      dbName: this.dbName,
+      dbVersion: this.dbVersion,
+      budgets,
+      tags,
+      expenses,
+    };
   }
 
   // Database helper methods

@@ -3,7 +3,11 @@
   <aside class="app-sidebar" [class.collapsed]="sidebarCollapsed()">
     <!-- Header with Toggle -->
     <div class="sidebar-header">
-      <button class="hamburger-btn" (click)="toggleSidebar()" [title]="translationService.translate('sidebarCollapsed() ? \'Expand\' : \'Collapse\'')">
+      <button
+        class="hamburger-btn"
+        (click)="toggleSidebar()"
+        [title]="translationService.translate(sidebarCollapsed() ? 'expandSidebar' : 'collapseSidebar')"
+      >
         <i class="pi pi-bars"></i>
       </button>
       <span class="app-brand" *ngIf="!sidebarCollapsed()">{{ translationService.translate('appName') }}</span>
@@ -19,6 +23,10 @@
         <i class="pi pi-info-circle"></i>
         <span class="nav-label" *ngIf="!sidebarCollapsed()">{{ translationService.translate('about') }}</span>
       </a>
+      <button class="nav-item" type="button" (click)="exportData()" [title]="translationService.translate('exportData')">
+        <i class="pi pi-download"></i>
+        <span class="nav-label" *ngIf="!sidebarCollapsed()">{{ translationService.translate('exportData') }}</span>
+      </button>
     </nav>
 
     <!-- Budgets Section -->
@@ -110,6 +118,10 @@
           <i class="pi pi-info-circle"></i>
           <span class="nav-label">{{ translationService.translate('about') }}</span>
         </a>
+        <button class="nav-item" type="button" (click)="exportData(); mobileDrawerVisible.set(false)">
+          <i class="pi pi-download"></i>
+          <span class="nav-label">{{ translationService.translate('exportData') }}</span>
+        </button>
       </nav>
 
       <div class="sidebar-section">

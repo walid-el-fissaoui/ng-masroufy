@@ -432,7 +432,7 @@ interface TagStatBreakdown {
     }
     .expense-actions {
       position: absolute;
-      right: 1rem;
+      inset-inline-end: 1rem;
       top: 50%;
       transform: translateY(-50%);
       display: flex;

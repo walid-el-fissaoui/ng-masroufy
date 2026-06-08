@@ -9,7 +9,7 @@
 .app-sidebar {
   width: 280px;
   background-color: var(--sidebar-bg);
-  border-right: 1px solid var(--sidebar-border);
+  border-inline-end: 1px solid var(--sidebar-border);
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -116,7 +116,7 @@
   background: transparent;
   width: 100%;
   cursor: pointer;
-  text-align: left;
+  text-align: start;
 }
 
 .nav-item i {
@@ -235,12 +235,12 @@ html.app-dark .add-budget-btn-collapsed {
   flex-grow: 1;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-right: 1.5rem;
+  margin-inline-end: 1.5rem;
 }
 
 .delete-budget-btn {
   position: absolute;
-  right: 0.5rem;
+  inset-inline-end: 0.5rem;
   top: 50%;
   transform: translateY(-50%);
   background: none;

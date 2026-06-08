@@ -1,12 +1,14 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, effect, Injectable, signal } from '@angular/core';
 
 export type Language = 'en' | 'ar';
+export type Direction = 'ltr' | 'rtl';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TranslationService {
   currentLang = signal<Language>('en');
+  direction = computed<Direction>(() => (this.currentLang() === 'ar' ? 'rtl' : 'ltr'));
 
   private dictionary: Record<Language, Record<string, string>> = {
     en: {
@@ -140,6 +142,11 @@ export class TranslationService {
     if (storedLang === 'ar' || storedLang === 'en') {
       this.currentLang.set(storedLang);
     }
+
+    effect(() => {
+      document.documentElement.lang = this.currentLang();
+      document.documentElement.dir = this.direction();
+    });
   }
 
   setLanguage(lang: Language) {

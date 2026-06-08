@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1780950003207,
+  "timestamp": 1780950188388,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -13,7 +13,7 @@
       "urls": [
         "/chunk-2GSXAUFH.js",
         "/chunk-MG2QWWSF.js",
-        "/favicon.ico",
+        "/favicon.png",
         "/index.html",
         "/main-FTCU5REQ.js",
         "/manifest.webmanifest",
@@ -30,7 +30,6 @@
         "ignoreVary": true
       },
       "urls": [
-        "/favicon.png",
         "/icons/icon-128x128.png",
         "/icons/icon-144x144.png",
         "/icons/icon-152x152.png",
@@ -51,7 +50,6 @@
   "hashTable": {
     "/chunk-2GSXAUFH.js": "88e3da8f489764e9b723f66a79d4cf8165246639",
     "/chunk-MG2QWWSF.js": "7e1486efd721ef646ae71e4127311418c341586e",
-    "/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
     "/favicon.png": "3069a3ae442d5cd8c2c1c430717a7987597a1111",
     "/icons/icon-128x128.png": "4e488c6d8e3238000bd5d0b076012d2474cd0766",
     "/icons/icon-144x144.png": "664d929dff132cb79f90533837fd442c8f74ad4a",

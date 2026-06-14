@@ -7,7 +7,7 @@ import { InputText } from 'primeng/inputtext';
 import { Dialog } from 'primeng/dialog';
 import { Drawer } from 'primeng/drawer';
 import { ConfirmDialog } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
 import { StateService } from './services/state.service';
 import { TranslationService } from './services/translation.service';
 import { Budget } from './models/types';
@@ -27,7 +27,7 @@ import { Budget } from './models/types';
     Drawer,
     ConfirmDialog,
   ],
-  providers: [ConfirmationService],
+  providers: [ConfirmationService, MessageService],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -35,6 +35,7 @@ export class App {
   stateService = inject(StateService);
   translationService = inject(TranslationService);
   private confirmationService = inject(ConfirmationService);
+  private messageService = inject(MessageService);
 
   // Sidebar controls
   sidebarCollapsed = signal<boolean>(false);

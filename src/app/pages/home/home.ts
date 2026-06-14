@@ -8,7 +8,8 @@ import { DatePicker } from 'primeng/datepicker';
 import { Button } from 'primeng/button';
 import { ProgressBar } from 'primeng/progressbar';
 import { ConfirmDialog } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 import { StateService } from '../../services/state.service';
 import { TranslationService } from '../../services/translation.service';
 import { Tag, Expense } from '../../models/types';
@@ -32,8 +33,10 @@ interface TagStatBreakdown {
     DatePicker,
     Button,
     ProgressBar,
+    ConfirmDialog,
+    ToastModule,
   ],
-  providers: [ConfirmationService],
+  providers: [ConfirmationService, MessageService],
   template: `
     <div class="max-w-620 animate-fade-in">
       @if (!stateService.activeBudget()) {
@@ -260,6 +263,8 @@ interface TagStatBreakdown {
         </section>
       }
     </div>
+    <p-toast />
+    <p-confirmdialog />
   `,
   styles: [`
     .budget-dashboard-header {
@@ -601,7 +606,7 @@ export class HomeComponent {
   stateService = inject(StateService);
   t = inject(TranslationService);
   private confirmationService = inject(ConfirmationService);
-
+  private messageService = inject(MessageService);
   // Tag Form Fields
   newTagName = '';
   editingTagId = signal<string | null>(null);
@@ -670,6 +675,9 @@ export class HomeComponent {
       rejectButtonProps: { severity: 'secondary', label: this.t.translate('cancel') },
       accept: async () => {
         await this.stateService.deleteTag(tag.id);
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
       }
     });
   }
@@ -723,7 +731,7 @@ export class HomeComponent {
     this.editingExpenseId.set(expense.id);
     this.expenseAmount = expense.amount;
     this.expenseDescription = expense.description;
-    
+
     // Find matching tag option
     const tag = this.stateService.activeBudgetTags().find(t => t.id === expense.tagId);
     this.expenseTag = tag || null;
@@ -773,7 +781,7 @@ export class HomeComponent {
     const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
     this.statsStartDate.set(firstDay);
     this.statsEndDate.set(now);
-    
+
     this.statsTotal.set(0);
     this.statsBreakdown.set([]);
     this.statsGenerated.set(false);

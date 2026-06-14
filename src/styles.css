@@ -1,2 +1,234 @@
-/* You can add global styles to this file, and also import other style files */
 @import "primeicons/primeicons.css";
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+/* Color Variables and Design Tokens */
+:root {
+  --bg-color: #f8fafc;
+  --text-color: #0f172a;
+  --text-muted: #64748b;
+  --card-bg: #ffffff;
+  --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --card-shadow-hover: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
+  --border-color: #e2e8f0;
+  --sidebar-bg: #ffffff;
+  --sidebar-border: #e2e8f0;
+  --sidebar-text: #334155;
+  --sidebar-hover: #f1f5f9;
+  --sidebar-active: #e2e8f0;
+  --sidebar-active-text: #1e88e5;
+  --header-bg: rgba(255, 255, 255, 0.8);
+  --header-blur: saturate(180%) blur(8px);
+  --primary-color: #1e88e5;
+  --empty-state-bg: #f1f5f9;
+  --danger-color: #ef4444;
+}
+
+html.app-dark {
+  --bg-color: #0b0f19;
+  --text-color: #f8fafc;
+  --text-muted: #94a3b8;
+  --card-bg: #131b2e;
+  --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.2), 0 2px 4px -2px rgb(0 0 0 / 0.2);
+  --card-shadow-hover: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+  --border-color: #1e293b;
+  --sidebar-bg: #0f172a;
+  --sidebar-border: #1e293b;
+  --sidebar-text: #cbd5e1;
+  --sidebar-hover: #1e293b;
+  --sidebar-active: #334155;
+  --sidebar-active-text: #60a5fa;
+  --header-bg: rgba(15, 23, 42, 0.8);
+  --header-blur: saturate(180%) blur(8px);
+  --primary-color: #60a5fa;
+  --empty-state-bg: #1e293b;
+  --danger-color: #f87171;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Utility Layouts */
+.flex-1 { flex: 1 1 0%; }
+.w-full { width: 100%; }
+.max-w-620 {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem;
+  width: 100%;
+}
+
+/* Common Classes for Masroufy Components */
+.card-section {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+.card-section:hover {
+  box-shadow: var(--card-shadow-hover);
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: var(--empty-state-bg);
+  border-radius: 20px;
+  border: 2px dashed var(--border-color);
+  margin-top: 2rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.empty-state i {
+  font-size: 3.5rem;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  opacity: 0.85;
+}
+.empty-state h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+.empty-state p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  max-width: 400px;
+  margin: 0 0 1.5rem 0;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* PrimeNG Theme Customizations */
+p-confirmdialog .p-dialog {
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+}
+p-confirmdialog .p-dialog-header,
+p-confirmdialog .p-dialog-content,
+p-confirmdialog .p-dialog-footer {
+  background: var(--card-bg) !important;
+  color: var(--text-color) !important;
+}
+p-confirmdialog .p-dialog-title {
+  font-weight: 700;
+}
+p-confirmdialog .p-dialog-footer button {
+  border-radius: 8px;
+}
+
+p-dialog .p-dialog {
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+}
+p-dialog .p-dialog-header,
+p-dialog .p-dialog-content {
+  background: var(--card-bg) !important;
+  color: var(--text-color) !important;
+}
+p-dialog .p-dialog-title {
+  font-weight: 700;
+}
+
+/* Style overrides for custom scrollbar within PrimeNG components */
+.p-select-list-container, .p-datepicker-panel {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+.p-select-option {
+  color: var(--text-color) !important;
+}
+.p-select-option:hover, .p-select-option.p-focus {
+  background-color: var(--sidebar-hover) !important;
+}
+.p-select-option.p-selected {
+  background-color: var(--sidebar-active) !important;
+  color: var(--sidebar-active-text) !important;
+}
+.p-select-placeholder {
+  color: var(--text-muted) !important;
+}
+
+@media (max-width: 576px) {
+  .max-w-620 {
+    padding: 1rem 0.875rem;
+  }
+
+  .card-section {
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-title {
+    align-items: flex-start;
+    font-size: 1.05rem;
+    line-height: 1.3;
+  }
+
+  .empty-state {
+    padding: 2.5rem 1rem;
+    margin-top: 1rem;
+  }
+}

@@ -1,5 +1,346 @@
-.container {
-    max-width: 960px;
-    margin-left: auto;
-    margin-right: auto;
+/* Desktop Shell Layout Grid */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Sidebar Styles (Collapsible) */
+.app-sidebar {
+  width: 280px;
+  background-color: var(--sidebar-bg);
+  border-inline-end: 1px solid var(--sidebar-border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 10;
+}
+
+.app-sidebar.collapsed {
+  width: 68px;
+}
+
+/* Desktop Header */
+.desktop-header {
+  height: 64px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--header-bg);
+  backdrop-filter: var(--header-blur);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 9;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.app-main {
+  flex-grow: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: auto;
+  background-color: var(--bg-color);
+}
+
+.main-content-container {
+  flex-grow: 1;
+  width: 100%;
+}
+
+/* Sidebar Branding & Toggle */
+.sidebar-header {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 1.25rem;
+  border-bottom: 1px solid var(--sidebar-border);
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.hamburger-btn {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.25rem;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.hamburger-btn:hover {
+  background-color: var(--sidebar-hover);
+}
+
+.app-brand {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-color);
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+
+/* Sidebar Nav Links */
+.sidebar-nav {
+  padding: 1.25rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  border-bottom: 1px solid var(--sidebar-border);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  color: var(--sidebar-text);
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  gap: 0.75rem;
+  white-space: nowrap;
+  border: none;
+  background: transparent;
+  width: 100%;
+  cursor: pointer;
+  text-align: start;
+}
+
+.nav-item i {
+  font-size: 1.15rem;
+  flex-shrink: 0;
+  width: 20px;
+  text-align: center;
+}
+
+.nav-item:hover {
+  background-color: var(--sidebar-hover);
+  color: var(--text-color);
+}
+
+.nav-item.active {
+  background-color: var(--sidebar-active);
+  color: var(--sidebar-active-text);
+}
+
+.nav-label {
+  transition: opacity 0.2s;
+}
+
+/* Sidebar Section Headers */
+.sidebar-section {
+  padding: 1.25rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0.5rem 0.5rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+.add-budget-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.add-budget-btn:hover {
+  background-color: var(--sidebar-hover);
+  color: var(--text-color);
+}
+
+.add-budget-btn-collapsed {
+  justify-content: center;
+  color: var(--primary-color);
+  background-color: rgba(30, 136, 229, 0.08);
+  margin-bottom: 0.75rem;
+}
+html.app-dark .add-budget-btn-collapsed {
+  background-color: rgba(96, 165, 250, 0.1);
+}
+
+/* Budget List */
+.budget-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.budget-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 12px;
+  color: var(--sidebar-text);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  gap: 0.75rem;
+  position: relative;
+  white-space: nowrap;
+}
+
+.budget-item i.pi-wallet {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  width: 20px;
+  text-align: center;
+}
+
+.budget-item:hover {
+  background-color: var(--sidebar-hover);
+  color: var(--text-color);
+}
+
+.budget-item.active {
+  background-color: var(--sidebar-active);
+  color: var(--sidebar-active-text);
+}
+
+.budget-name {
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-inline-end: 1.5rem;
+}
+
+.delete-budget-btn {
+  position: absolute;
+  inset-inline-end: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s, color 0.2s, background-color 0.2s;
+  font-size: 0.85rem;
+}
+
+.budget-item:hover .delete-budget-btn {
+  opacity: 1;
+}
+
+.delete-budget-btn:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--danger-color);
+}
+
+/* Responsive Mobile Header & Styles */
+.mobile-header {
+  display: none;
+  height: 56px;
+  width: 100%;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--header-bg);
+  backdrop-filter: var(--header-blur);
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 9;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.mobile-header .app-brand {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Mobile Drawer styles */
+.mobile-drawer-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .app-layout {
+    min-height: 100dvh;
+    flex-direction: column;
+  }
+  .app-sidebar {
+    display: none;
+  }
+  .desktop-header {
+    display: none;
+  }
+  .mobile-header {
+    display: flex;
+  }
+  .app-main {
+    width: 100%;
+    height: auto;
+    min-height: calc(100dvh - 56px);
+    overflow-y: visible;
+  }
+}
+
+.flex {
+  display: flex;
+}
+.gap-2 {
+  gap: 0.5rem;
+}
+.dialog-form {
+  padding-top: 0.5rem;
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+.font-semibold {
+  font-weight: 600;
+}
+.mb-4 {
+  margin-bottom: 1rem;
+}
+.justify-content-end {
+  justify-content: flex-end;
 }

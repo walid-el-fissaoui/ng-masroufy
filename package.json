@@ -1,5 +1,5 @@
 {
-  "name": "ng-masroufy",
+  "name": "masroufy",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng build --base-href /ng-masroufy/ && npx angular-cli-ghpages --dir=dist/ng-masroufy/browser"
+    "deploy": "ng build --base-href / && copy dist\\masroufy\\browser\\index.html dist\\masroufy\\browser\\404.html && npx angular-cli-ghpages --dir=dist/masroufy/browser --cname=masroufy.com"
   },
   "prettier": {
     "overrides": [
@@ -21,12 +21,14 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^20.1.0",
     "@angular/common": "^20.1.0",
     "@angular/compiler": "^20.1.0",
     "@angular/core": "^20.1.0",
     "@angular/forms": "^20.1.0",
     "@angular/platform-browser": "^20.1.0",
     "@angular/router": "^20.1.0",
+    "@angular/service-worker": "^20.1.0",
     "@primeuix/themes": "^1.2.5",
     "primeicons": "^7.0.0",
     "primeng": "^20.3.0",

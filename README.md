@@ -1,0 +1,1 @@
+to deploy use : npm run deploy

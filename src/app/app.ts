@@ -9,6 +9,7 @@ import { Drawer } from 'primeng/drawer';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { StateService } from './services/state.service';
+import { MasroufyExportData } from './services/db.service';
 import { TranslationService } from './services/translation.service';
 import { Budget } from './models/types';
 
@@ -74,6 +75,35 @@ export class App {
     link.download = filename;
     link.click();
     URL.revokeObjectURL(url);
+  }
+
+  chooseImportFile(input: HTMLInputElement) {
+    if (window.confirm(this.translationService.translate('importDataConfirm'))) input.click();
+  }
+
+  async importData(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    input.value = '';
+    if (!file) return;
+    try {
+      const data: unknown = JSON.parse(await file.text());
+      if (!this.isExportData(data)) throw new Error('Invalid backup format');
+      await this.stateService.importData(data);
+      window.alert(this.translationService.translate('importDataSuccess'));
+    } catch {
+      window.alert(this.translationService.translate('importDataError'));
+    }
+  }
+
+  private isExportData(value: unknown): value is MasroufyExportData {
+    if (!value || typeof value !== 'object') return false;
+    const data = value as Partial<MasroufyExportData>;
+    if (!Array.isArray(data.budgets) || !Array.isArray(data.tags) || !Array.isArray(data.expenses)) return false;
+    const record = (item: unknown): item is Record<string, unknown> => !!item && typeof item === 'object';
+    return data.budgets.every((item) => record(item) && typeof item.id === 'string' && typeof item.name === 'string' && typeof item.createdAt === 'number')
+      && data.tags.every((item) => record(item) && typeof item.id === 'string' && typeof item.budgetId === 'string' && typeof item.name === 'string' && typeof item.createdAt === 'number')
+      && data.expenses.every((item) => record(item) && typeof item.id === 'string' && typeof item.budgetId === 'string' && typeof item.amount === 'number' && typeof item.description === 'string' && typeof item.tagId === 'string' && typeof item.date === 'string' && typeof item.createdAt === 'number');
   }
 
   confirmDeleteBudget(event: Event, budget: Budget) {

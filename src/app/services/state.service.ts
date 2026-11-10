@@ -1,6 +1,6 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { DbService } from './db.service';
+import { DbService, MasroufyExportData } from './db.service';
 import { Budget, Tag, Expense } from '../models/types';
 
 @Injectable({
@@ -201,5 +201,16 @@ export class StateService {
 
   exportData() {
     return this.dbService.exportData();
+  }
+
+  async importData(data: MasroufyExportData) {
+    await this.dbService.importData(data);
+    this.budgetsList.set(data.budgets);
+    this.tagsList.set(data.tags);
+    this.expensesList.set(data.expenses);
+    const activeId = this.activeBudgetId();
+    if (activeId && data.budgets.some((budget) => budget.id === activeId)) this.selectBudget(activeId);
+    else if (data.budgets.length) this.selectBudget(data.budgets[0].id);
+    else this.selectBudget(null);
   }
 }

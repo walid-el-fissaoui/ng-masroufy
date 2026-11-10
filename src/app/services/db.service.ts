@@ -162,6 +162,25 @@ export class DbService {
     };
   }
 
+  async importData(data: MasroufyExportData): Promise<void> {
+    const db = await this.dbPromise;
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(['budgets', 'tags', 'expenses'], 'readwrite');
+      const budgets = tx.objectStore('budgets');
+      const tags = tx.objectStore('tags');
+      const expenses = tx.objectStore('expenses');
+      budgets.clear();
+      tags.clear();
+      expenses.clear();
+      data.budgets.forEach((item) => budgets.put(item));
+      data.tags.forEach((item) => tags.put(item));
+      data.expenses.forEach((item) => expenses.put(item));
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+      tx.onabort = () => reject(tx.error);
+    });
+  }
+
   // Database helper methods
   private getAll<T>(db: IDBDatabase, storeName: string): Promise<T[]> {
     return new Promise((resolve, reject) => {

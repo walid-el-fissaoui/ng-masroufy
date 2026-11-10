@@ -89,6 +89,7 @@ export class TranslationService {
       budgets: 'الميزانيات',
       createBudget: 'إنشاء ميزانية جديدة',
       exportData: 'تصدير البيانات',
+      importData: 'تحميل البيانات',
       exportDataFilePrefix: 'masroufy-backup',
       collapseSidebar: 'طي القائمة الجانبية',
       expandSidebar: 'توسيع القائمة الجانبية',

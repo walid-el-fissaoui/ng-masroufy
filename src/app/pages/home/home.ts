@@ -687,7 +687,6 @@ export class HomeComponent {
     return (
       this.expenseAmount !== null &&
       this.expenseAmount > 0 &&
-      this.expenseDescription.trim().length > 0 &&
       this.expenseTag !== null &&
       this.expenseDate !== null
     );

@@ -109,7 +109,7 @@ interface TagStatBreakdown {
         </section>
 
         <!-- Section 2: Log/Edit Expense -->
-        <section class="card-section animate-fade-in">
+        <section id="expense-form" class="card-section animate-fade-in">
           <h2 class="card-title">
             <i class="pi pi-calculator"></i> 
             {{ editingExpenseId() ? t.translate('editExpense') : t.translate('logNewExpense') }}
@@ -745,6 +745,11 @@ export class HomeComponent {
     } else {
       this.expenseDate = new Date(expense.date);
     }
+
+    document.getElementById('expense-form')?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
   }
 
   cancelExpenseEdit() {

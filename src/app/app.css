@@ -255,7 +255,7 @@ html.app-dark .add-budget-btn-collapsed {
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.2s, color 0.2s, background-color 0.2s;
   font-size: 0.85rem;
 }

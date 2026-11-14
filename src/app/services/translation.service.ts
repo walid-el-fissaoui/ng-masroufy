@@ -160,13 +160,28 @@ export class TranslationService {
 
   constructor() {
     const storedLang = localStorage.getItem('masroufy_lang');
-    if (storedLang === 'ar' || storedLang === 'en') {
-      this.currentLang.set(storedLang);
+    const requestedLang = new URLSearchParams(location.search).get('lang');
+    const initialLang = requestedLang === 'ar' || requestedLang === 'en'
+      ? requestedLang
+      : storedLang;
+    if (initialLang === 'ar' || initialLang === 'en') this.currentLang.set(initialLang);
+    if (requestedLang === 'ar' || requestedLang === 'en') {
+      localStorage.setItem('masroufy_lang', requestedLang);
     }
 
     effect(() => {
-      document.documentElement.lang = this.currentLang();
+      const lang = this.currentLang();
+      document.documentElement.lang = lang;
       document.documentElement.dir = this.direction();
+      document.title = lang === 'ar'
+        ? 'مصروفي | تطبيق لإدارة المصروفات والميزانية'
+        : 'Masroufy مصروفي | Personal Expense & Budget Tracker';
+      document.querySelector('meta[name="description"]')?.setAttribute(
+        'content',
+        lang === 'ar'
+          ? 'مصروفي تطبيق مجاني وخصوصي لتتبع المصروفات وإدارة الميزانية وتنظيم الفئات ومراجعة الإحصائيات.'
+          : 'Masroufy is a private expense and budget tracker for managing pocket money, categories, and spending statistics on your phone or desktop.'
+      );
     });
   }
 

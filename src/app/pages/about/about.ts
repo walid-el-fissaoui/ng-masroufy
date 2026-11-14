@@ -77,6 +77,13 @@ import { TranslationService } from '../../services/translation.service';
         </ul>
       </div>
 
+      <div class="card-section">
+        <h2 class="card-title"><i class="pi pi-envelope"></i> {{ t.translate('contactUs') }}</h2>
+        <p class="section-text">
+          <a href="mailto:yaomiy.network@gmail.com">yaomiy.network@gmail.com</a>
+        </p>
+      </div>
+
       <div class="flex justify-content-center mt-4 mb-4">
         <p-button [label]="t.translate('backToDashboard')" icon="pi pi-home" routerLink="/" />
       </div>

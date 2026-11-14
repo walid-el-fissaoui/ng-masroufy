@@ -22,7 +22,9 @@ export class StateService {
   darkMode = signal<boolean>(false);
 
   // Public computed properties
-  budgets = computed(() => this.budgetsList());
+  budgets = computed(() =>
+    [...this.budgetsList()].sort((a, b) => b.createdAt - a.createdAt)
+  );
   
   activeBudget = computed(() => {
     const activeId = this.activeBudgetId();
@@ -66,7 +68,7 @@ export class StateService {
       if (storedActiveId && budgets.some((b) => b.id === storedActiveId)) {
         this.activeBudgetId.set(storedActiveId);
       } else if (budgets.length > 0) {
-        this.selectBudget(budgets[0].id);
+        this.selectBudget(this.budgets()[0].id);
       }
     } catch (e) {
       console.error('Error loading initial state from IndexedDB:', e);
@@ -133,7 +135,7 @@ export class StateService {
 
     // Reset or update selected budget
     if (this.activeBudgetId() === id) {
-      const remaining = this.budgetsList();
+      const remaining = this.budgets();
       if (remaining.length > 0) {
         this.selectBudget(remaining[0].id);
       } else {
@@ -210,7 +212,7 @@ export class StateService {
     this.expensesList.set(data.expenses);
     const activeId = this.activeBudgetId();
     if (activeId && data.budgets.some((budget) => budget.id === activeId)) this.selectBudget(activeId);
-    else if (data.budgets.length) this.selectBudget(data.budgets[0].id);
+    else if (data.budgets.length) this.selectBudget(this.budgets()[0].id);
     else this.selectBudget(null);
   }
 }

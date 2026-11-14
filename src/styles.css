@@ -133,6 +133,12 @@ body {
   margin-bottom: 1.5rem;
   opacity: 0.85;
 }
+.empty-state img {
+  width: 7rem;
+  height: 7rem;
+  object-fit: contain;
+  margin-bottom: 1.5rem;
+}
 .empty-state h3 {
   font-size: 1.5rem;
   font-weight: 700;

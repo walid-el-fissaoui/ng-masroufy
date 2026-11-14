@@ -42,7 +42,7 @@ interface TagStatBreakdown {
       @if (!stateService.activeBudget()) {
         <!-- Empty State when no budget is selected -->
         <div class="empty-state animate-fade-in">
-          <i class="pi pi-wallet"></i>
+          <img src="/wallet.png" alt="Wallet">
           <h3>{{ t.translate('noActiveBudget') }}</h3>
           <p>{{ t.translate('noActiveBudgetDesc') }}</p>
         </div>

@@ -1,4 +1,4 @@
-import { Component, signal, effect, inject } from '@angular/core';
+import { Component, signal, effect, inject, untracked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
@@ -775,11 +775,20 @@ export class HomeComponent {
 
   // Statistics Operations
   resetStats() {
-    // Default stats date range to current month
-    const now = new Date();
-    const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
-    this.statsStartDate.set(firstDay);
-    this.statsEndDate.set(now);
+    const expenses = untracked(() => this.stateService.activeBudgetExpenses());
+    if (expenses.length > 0) {
+      const dates = expenses.map((expense) => {
+        const [year, month, day] = expense.date.split('-').map(Number);
+        return new Date(year, month - 1, day);
+      });
+      dates.sort((a, b) => a.getTime() - b.getTime());
+      this.statsStartDate.set(dates[0]);
+      this.statsEndDate.set(dates[dates.length - 1]);
+    } else {
+      const today = new Date();
+      this.statsStartDate.set(today);
+      this.statsEndDate.set(today);
+    }
 
     this.statsTotal.set(0);
     this.statsBreakdown.set([]);

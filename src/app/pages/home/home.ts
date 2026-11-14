@@ -118,11 +118,10 @@ interface TagStatBreakdown {
           <div class="expense-form">
             <div class="grid-form">
               <div class="form-field">
-                <label class="form-label">{{ t.translate('amount') }}</label>
+                <label class="form-label">{{ t.translate('amount') }} ({{ stateService.currency() }})</label>
                 <p-inputnumber 
                   [(ngModel)]="expenseAmount" 
-                  mode="currency" 
-                  currency="MAD" 
+                  mode="decimal" 
                   locale="fr-MA" 
                   placeholder="0.00" 
                   styleClass="w-full" 
@@ -187,7 +186,7 @@ interface TagStatBreakdown {
               @for (exp of stateService.activeBudgetExpenses(); track exp.id) {
                 <div class="expense-item-card animate-fade-in">
                   <div class="expense-meta">
-                    <span class="expense-amount">{{ exp.amount | number:'1.2-2' }} MAD</span>
+                    <span class="expense-amount">{{ exp.amount | number:'1.2-2' }} {{ stateService.currency() }}</span>
                     <span class="expense-tag-label">{{ getTagName(exp.tagId) }}</span>
                   </div>
                   <div class="expense-details">
@@ -234,7 +233,7 @@ interface TagStatBreakdown {
             <div class="stats-results animate-fade-in mt-4">
               <div class="stats-summary-box">
                 <span class="stats-summary-label">{{ t.translate('totalExpenditures') }}</span>
-                <span class="stats-summary-val">{{ statsTotal() | number:'1.2-2' }} MAD</span>
+                <span class="stats-summary-val">{{ statsTotal() | number:'1.2-2' }} {{ stateService.currency() }}</span>
               </div>
 
               <div class="stats-breakdown-section mt-4">
@@ -248,7 +247,7 @@ interface TagStatBreakdown {
                         <div class="breakdown-details">
                           <span class="breakdown-tag">{{ item.tagName }}</span>
                           <span class="breakdown-amt">
-                            {{ item.total | number:'1.2-2' }} MAD 
+                            {{ item.total | number:'1.2-2' }} {{ stateService.currency() }}
                             <span class="breakdown-pct">({{ item.percentage.toFixed(1) }}%)</span>
                           </span>
                         </div>
@@ -762,7 +761,7 @@ export class HomeComponent {
 
   confirmDeleteExpense(expense: Expense) {
     this.confirmationService.confirm({
-      message: this.t.translate('deleteExpenseConfirmText', { amount: expense.amount.toFixed(2), desc: expense.description }),
+      message: this.t.translate('deleteExpenseConfirmText', { amount: expense.amount.toFixed(2), currency: this.stateService.currency(), desc: expense.description }),
       header: this.t.translate('deleteExpenseConfirmHeader'),
       icon: 'pi pi-exclamation-triangle',
       acceptButtonProps: { severity: 'danger', label: this.t.translate('delete') },

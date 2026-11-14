@@ -20,6 +20,14 @@ export class StateService {
 
   // Dark mode state
   darkMode = signal<boolean>(false);
+  currency = signal<string>(localStorage.getItem('masroufy_currency') || 'MAD');
+
+  setCurrency(currency: string) {
+    const normalized = currency.trim();
+    if (!normalized) return;
+    this.currency.set(normalized);
+    localStorage.setItem('masroufy_currency', normalized);
+  }
 
   // Public computed properties
   budgets = computed(() =>

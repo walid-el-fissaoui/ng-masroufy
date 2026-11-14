@@ -11,7 +11,7 @@ import { TranslationService } from '../../services/translation.service';
     <div class="max-w-620 animate-fade-in">
       <div class="about-header text-center">
         <div class="logo-container">
-          <i class="pi pi-wallet logo-icon"></i>
+           <img src="/wallet.png" alt="Wallet">
         </div>
         <h1 class="about-title">{{ t.translate('appName') }}</h1>
         <p class="about-subtitle text-muted">{{ t.translate('appSubtitle') }}</p>
@@ -89,15 +89,17 @@ import { TranslationService } from '../../services/translation.service';
       text-align: center;
     }
     .logo-container {
-      width: 72px;
-      height: 72px;
-      background: linear-gradient(135deg, #1e88e5 0%, #60a5fa 100%);
-      border-radius: 20px;
+      width: 100px;
+      height: 100px;
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto 1rem auto;
-      box-shadow: 0 8px 16px -4px rgba(30, 136, 229, 0.3);
+    }
+
+    .logo-container img {
+      width: 100%;
+      height: 100%;
     }
     .logo-icon {
       font-size: 2.25rem;

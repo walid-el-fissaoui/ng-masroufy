@@ -23,6 +23,10 @@
         <i class="pi pi-info-circle"></i>
         <span class="nav-label" *ngIf="!sidebarCollapsed()">{{ translationService.translate('about') }}</span>
       </a>
+      <a routerLink="/settings" routerLinkActive="active" class="nav-item" [title]="translationService.translate('settings')">
+        <i class="pi pi-cog"></i>
+        <span class="nav-label" *ngIf="!sidebarCollapsed()">{{ translationService.translate('settings') }}</span>
+      </a>
       <button class="nav-item" type="button" (click)="exportData()" [title]="translationService.translate('exportData')">
         <i class="pi pi-download"></i>
         <span class="nav-label" *ngIf="!sidebarCollapsed()">{{ translationService.translate('exportData') }}</span>
@@ -121,6 +125,10 @@
         <a routerLink="/about" routerLinkActive="active" class="nav-item" (click)="mobileDrawerVisible.set(false)">
           <i class="pi pi-info-circle"></i>
           <span class="nav-label">{{ translationService.translate('about') }}</span>
+        </a>
+        <a routerLink="/settings" routerLinkActive="active" class="nav-item" (click)="mobileDrawerVisible.set(false)">
+          <i class="pi pi-cog"></i>
+          <span class="nav-label">{{ translationService.translate('settings') }}</span>
         </a>
         <button class="nav-item" type="button" (click)="exportData(); mobileDrawerVisible.set(false)">
           <i class="pi pi-download"></i>
